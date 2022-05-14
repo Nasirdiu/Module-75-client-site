@@ -10,12 +10,14 @@ import Loading from "../../Share/Loading/Loading";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { async } from "@firebase/util";
 import useToken from "../../../hooks/userToken";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    getValues,
   } = useForm();
   //email sing in
   const [signInWithEmailAndPassword, user, loading, error] =
@@ -25,7 +27,7 @@ const Login = () => {
   const [sendPasswordResetEmail, sending, restError] =
     useSendPasswordResetEmail(auth);
   //use token
-  const [token] = useToken(user || user);
+  const [token] = useToken(user || gUser);
 
   let singInError;
   const navigate = useNavigate();
@@ -54,15 +56,15 @@ const Login = () => {
     signInWithEmailAndPassword(data.email, data.password);
   };
   //resetPassword
-  const resetPassword = async (email) => {
+  const resetPassword = async () => {
+    const email = getValues("email");
     if (email) {
       await sendPasswordResetEmail(email);
-      alert("Send Mail");
+      toast("Send Mail");
     } else {
-      alert("Enter Your Mail Address");
+      toast("Enter Your Mail Address");
     }
   };
-
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="card w-96 bg-base-100 shadow-xl">
