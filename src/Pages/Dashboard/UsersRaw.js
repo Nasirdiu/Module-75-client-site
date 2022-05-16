@@ -14,10 +14,10 @@ const UsersRaw = ({ user, refetch }) => {
         if (res.status === 403) {
           toast.error("Failed to Make an admin ");
         }
-        res.json();
+       return res.json();
       })
       .then((data) => {
-        console.log(data);
+       
         if (data?.modifiedCount) {
           refetch();
           toast.success("successfully made an admin");

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../firebase.init";
 
 const useAdmin = (user) => {
   const [admin, setAdmin] = useState(false);
   const [adminLoading, setAdminLoading] = useState(true);
+  // const [user]=useAuthState(auth);
   useEffect(() => {
     const email = user?.email;
-    console.log(email);
     if (email) {
       fetch(`http://localhost:5000/admin/${email}`, {
         method: "GET",
@@ -16,8 +18,11 @@ const useAdmin = (user) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setAdmin(data.admin);
-          setAdminLoading(false);
+          
+          if (data.admin) {
+            setAdmin(true);
+            setAdminLoading(false);
+          }
         });
     }
   }, [user]);
