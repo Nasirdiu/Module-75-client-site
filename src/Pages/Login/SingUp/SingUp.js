@@ -8,7 +8,8 @@ import auth from "../../../firebase.init";
 import { useForm } from "react-hook-form";
 import Loading from "../../Share/Loading/Loading";
 import { Link, useNavigate } from "react-router-dom";
-import useToken from "../../../hooks/userToken";
+import useToken from "../../../hooks/useToken";
+import { toast } from "react-toastify";
 const SingUp = () => {
   const {
     register,
@@ -45,7 +46,7 @@ const SingUp = () => {
   const onSubmit = async (data) => {
     await createUserWithEmailAndPassword(data.email, data.password);
     await updateProfile({ displayName: data.name });
-    console.log("Update done");
+    toast("Sing Up done");
   };
   return (
     <div className="flex justify-center items-center h-screen">
